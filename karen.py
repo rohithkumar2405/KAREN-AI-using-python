@@ -3,6 +3,8 @@ import datetime
 import speech_recognition as sr    #pip install SpeechRecognition , 
 import wikipedia  #pip install wikipedia , 
 import smtplib
+import webbrowser as wb
+import os
 
 engine = pyttsx3.init() # Initialize the text-to-speech engine
 
@@ -69,7 +71,7 @@ def sendEmail(to , content):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
-    server.login("rohithkumar2424@gmail.com","rohithkannan@2424")
+    server.login("rohithkumar2424@gmail.com","arppzhdoxkebjvpl")
     server.sendmail('rohithkumar2424@gmail.com',to , content)
     server.close()
 
@@ -105,6 +107,30 @@ if __name__ == "__main__":
                 print(e)
                 speak("unable to send email")
 
+        elif 'search in chrome' in query :
+            speak("what should i search for you ?")
+            chromepath = "C:\Program Files\Google\Chrome\Application\chrome.exe %s"
+            search = takeCommand().lower()
+            wb.get(chromepath).open_new_tab(search + '.com')
+
+        elif 'logout' in query :
+            os.system("shutdown -1")
+
+        elif 'shutdown' in query :
+            os.system("shutdown /s /t 1")
+
+        elif 'restart' in query :
+            os.system("shutdown /r /t 1")
+
+        elif 'play songs' in query :
+            songsDir = 'D:\songs'
+            songs = os.listdir(songsDir)
+            os.startfile(os.path.join(songsDir , songs[0]))
+
+        elif 'remember that' in query :
+            speak("what should i remember ?")
+            data = takeCommand()
+            speak("you said to remember that" + data)
 
         elif 'offline' in query :
             quit()

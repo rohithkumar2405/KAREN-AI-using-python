@@ -1,6 +1,8 @@
 import pyttsx3  #pip install pyttsx3 , Import the pyttsx3 library for text-to-speech
 import datetime
 import speech_recognition as sr    #pip install SpeechRecognition , 
+import wikipedia  #pip install wikipedia , 
+import smtplib
 
 engine = pyttsx3.init() # Initialize the text-to-speech engine
 
@@ -63,6 +65,15 @@ def takeCommand():
     return query
 
 
+def sendEmail(to , content):
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.login("rohithkumar2424@gmail.com","rohithkannan@2424")
+    server.sendmail('rohithkumar2424@gmail.com',to , content)
+    server.close()
+
+
 if __name__ == "__main__":
     wishme()
 
@@ -74,6 +85,26 @@ if __name__ == "__main__":
 
         elif 'date' in query :
             date()
+
+        elif 'wikipedia' in query :
+            speak("searching...")
+            query = query.replace("wikipedia","")
+            result = wikipedia.summary(query, sentences=2)
+            print(result)
+            speak(result)
+
+        elif 'send email' in query :
+            try :
+                speak("what should i say ?")
+                content = takeCommand()
+                to = 'rohithkumar.k.2019.cse@ritchennai.edu.in'
+                sendEmail(to,content)
+                speak("Email has been sent")
+
+            except Exception as e :
+                print(e)
+                speak("unable to send email")
+
 
         elif 'offline' in query :
             quit()

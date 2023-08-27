@@ -5,6 +5,8 @@ import wikipedia  #pip install wikipedia ,
 import smtplib
 import webbrowser as wb
 import os
+import pyautogui 
+import psutil
 
 engine = pyttsx3.init() # Initialize the text-to-speech engine
 
@@ -75,6 +77,10 @@ def sendEmail(to , content):
     server.sendmail('rohithkumar2424@gmail.com',to , content)
     server.close()
 
+def screenshot():
+    img = pyautogui.screenshot()
+    img.save()
+
 
 if __name__ == "__main__":
     wishme()
@@ -131,6 +137,17 @@ if __name__ == "__main__":
             speak("what should i remember ?")
             data = takeCommand()
             speak("you said to remember that" + data)
+            remember = open('data.txt','w')
+            remember.write(data)
+            remember.close()
+
+        elif 'do you know anything' in query :
+            remember = open('data.txt','r')
+            speak("you said me to remember that" + remember.read())
+
+        elif 'screenshot' in query :
+            screenshot()
+            speak("Done!")
 
         elif 'offline' in query :
             quit()

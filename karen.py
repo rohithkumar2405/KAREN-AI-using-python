@@ -7,6 +7,7 @@ import webbrowser as wb
 import os
 import pyautogui 
 import psutil
+import pyjokes
 
 engine = pyttsx3.init() # Initialize the text-to-speech engine
 
@@ -81,6 +82,17 @@ def screenshot():
     img = pyautogui.screenshot()
     img.save()
 
+def cpu():
+    usage = str(psutil.cpu_percent())
+    speak("cpu is at" + usage + "usage")
+    
+def battery():
+    battery = psutil.sensors_battery()
+    speak("Battery is at" + battery.percent)
+
+def jokes():
+    speak(pyjokes.get_joke())
+
 
 if __name__ == "__main__":
     wishme()
@@ -148,6 +160,15 @@ if __name__ == "__main__":
         elif 'screenshot' in query :
             screenshot()
             speak("Done!")
+
+        elif 'cpu' in query :
+            cpu()
+
+        elif 'battery' in query :
+            battery()
+
+        elif 'joke' in query :
+            jokes()
 
         elif 'offline' in query :
             quit()
